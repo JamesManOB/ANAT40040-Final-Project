@@ -1,9 +1,9 @@
-# ANAT40040-Final-Project
-ANAT40040 Final Project — Gene Expression Analysis of HER2-Amplified Breast Cancer
+# ANAT40040 Final Project
+ANAT40040 Final Project: Gene Expression Analysis of HER2Amplified Breast Cancer
 
-This repository contains the R workflow used to complete Assignment 2: Gene Expression Analysis and Interpretation for the module ANAT40040 - Bio Principles and Cell Organisation.
+This repository contains the R workflow used to complete Assignment 2: Gene Expression Analysis and Interpretation for the module ANAT40040 Bio Principles and Cell Organisation.
 
-The analysis uses TCGA BRCA PanCancer Atlas 2018 data downloaded from cBioPortal, and compares ERBB2-amplified vs non-amplified breast tumours.
+The analysis uses TCGA BRCA PanCancer Atlas 2018 data downloaded from cBioPortal, and compares ERBB2 amplified vs nonamplified breast tumours.
 
 ## Repository Contents
 1. ANANT40040_Final_BRCA_ERBB2_Pipeline_RScript.R
@@ -12,7 +12,7 @@ This script performs the analysis pipeline:
 
 Data Import & Preprocessing
 
-Loads RNA-seq, clinical, and CNA data from cBioPortal
+Loads RNAseq, clinical, and CNA data from cBioPortal
 
 Matches patient barcodes across data types
 
@@ -38,7 +38,7 @@ Reactome pathways
 
 Unsupervised Analysis
 
-Variance-stabilised transformation (VST)
+Variancestabilised transformation (VST)
 
 PCA plot coloured by ERBB2 status
 
