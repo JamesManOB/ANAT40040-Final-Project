@@ -12,7 +12,7 @@ library(survival)
 library(glmnet)
 
 #1 Untar and load clinical, RNA, CNA (cBioPortal)
-downloads_path = "C:/Users/James/OneDrive - University College Dublin/Desktop/ANAT40040 - Materials/Final_CBioPortal_Assignment/ANAT40040_Final_Project"
+downloads_path = #secret
 tar_filename = "brca_tcga_pan_can_atlas_2018.tar.gz"
 file_path = paste(downloads_path, tar_filename, sep = "/")
 untar(file_path)
@@ -369,4 +369,5 @@ plot(fit_km, col = c("blue","red"),xlab = "Overall survival (months)",ylab = "Su
      main = "Kaplan-Meier curves by LASSO Cox risk group",lwd  = 2)
 
 legend("bottomleft",col = c("blue","red"),legend = levels(meta_cox$risk_group),lwd = 2, bty = "n")
+
 
