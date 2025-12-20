@@ -42,7 +42,7 @@ Variancestabilised transformation (VST)
 
 PCA plot coloured by ERBB2 status
 
-Heatmap of the top 100 DE genes
+Heatmap of the top 20 DE genes
 
 Survival Modelling (LASSO Cox)
 
@@ -77,7 +77,7 @@ GO, KEGG, and Reactome enrichment plots
 
 PCA plot of VST data
 
-Heatmap of top 100 DE genes
+Heatmap of top 20 DE genes
 
 LASSO Cox KM curves & risk model metrics
 
