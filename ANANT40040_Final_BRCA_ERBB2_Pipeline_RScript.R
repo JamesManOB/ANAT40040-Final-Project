@@ -12,7 +12,7 @@ library(survival)
 library(glmnet)
 
 #1 Untar and load clinical, RNA, CNA (cBioPortal)
-downloads_path = #secret
+downloads_path = "C:/Users/James/OneDrive - University College Dublin/Desktop/ANAT40040 - Materials/Final_CBioPortal_Assignment/ANAT40040_Final_Project"
 tar_filename = "brca_tcga_pan_can_atlas_2018.tar.gz"
 file_path = paste(downloads_path, tar_filename, sep = "/")
 untar(file_path)
@@ -21,6 +21,7 @@ folder_path = paste0(getwd(), "/brca_tcga_pan_can_atlas_2018")
 #quick check
 print(folder_path)
 list.files(folder_path)
+
 
 #2 Clinical Data
 data_patient_path = paste(folder_path, "data_clinical_patient.txt", sep = "/")
@@ -127,6 +128,7 @@ metadata = data.frame(erbb2_status = erbb2_status, OS_time = OS_time,
                       OS_status = OS_status, row.names = colnames(assay))
 ###check rownames match column names assay
 all(rownames(metadata) == colnames(assay))
+
 #####9 DESeq2 Differential expression (Amplified vs Not Amplified)#####
 
 dds = DESeqDataSetFromMatrix(
@@ -139,8 +141,12 @@ dds = DESeq(dds)
 # Differential expression results: Amplified vs NotAmplified
 res = results(dds, contrast = c("erbb2_status", "Amplified", "NotAmplified"))
 
-# Order by adjusted p-value
-res_ordered = res[order(res$padj),]
+res_df = as.data.frame(res)
+res_df$Gene = rownames(res_df)
+
+#Filter significant genes (padj < 0.05) and rank by log2FoldChange
+res_ordered = res[!is.na(res$padj) & res$padj < 0.05, ]
+res_ordered = res_ordered[order(abs(res_ordered$log2FoldChange), decreasing = TRUE), ]
 
 # Top 10 differentially expressed genes
 top10_DE = res_ordered[1:10,]
@@ -156,6 +162,7 @@ top10_table = top10_table[, c("Gene","baseMean",
 #out_path = file.path(out_dir, "Top10_DE_ERBB2_Amplified_vs_NotAmplified.csv")
 #write.csv(top10_table, file = out_path, row.names = FALSE)
 #commented out but can be changed for other computers
+
 
 ##########10 Pathway Enrichment################
 #selecting signifcant genes - keep genes with padj < 0.05 and non-missing padj
@@ -256,10 +263,10 @@ pca_plot = plotPCA(vsd, intgroup = "erbb2_status")
 pca_plot
 
 #######12 Heatmap of vst for de genes#####
-#taking the top 100 DE genes by adjusted p value because my laptop did not like
+#taking the top 20 DE genes by adjusted p value because my laptop did not like
 #the fact I was trying to use all DE genes
 res_sig_ordered = res_sig[order(res_sig$padj), ]
-top_genes = rownames(res_sig_ordered)[1:100]
+top_genes = rownames(res_sig_ordered)[1:20]
 
 #subset the vst matrx to those genes
 vsd_DE = vsd_mat[top_genes,]
@@ -273,7 +280,7 @@ pheatmap(vsd_DE, scale = "row",
          annotation_col = ann_col,
          show_rownames = FALSE,
          show_colnames = FALSE,
-         main = "Top 100 DE genes ERBB Amplified vs Not Amplified")
+         main = "Top 20 DE genes ERBB Amplified vs Not Amplified")
 
 ##########13 Lasso Cox Regression ANALYSISUSUS######
 
@@ -352,7 +359,7 @@ meta_cox$risk_group = factor(meta_cox$risk_group,levels = c("Low", "High"))
 
 table(meta_cox$risk_group)
 
-# Cox model using risk score (for loglikelihood + C index)
+# Cox model using risk score (for log likelihood + C index)
 cox_model = coxph(y_surv ~ risk_score, data = meta_cox)
 summary(cox_model)
 
@@ -369,5 +376,4 @@ plot(fit_km, col = c("blue","red"),xlab = "Overall survival (months)",ylab = "Su
      main = "Kaplan-Meier curves by LASSO Cox risk group",lwd  = 2)
 
 legend("bottomleft",col = c("blue","red"),legend = levels(meta_cox$risk_group),lwd = 2, bty = "n")
-
 
