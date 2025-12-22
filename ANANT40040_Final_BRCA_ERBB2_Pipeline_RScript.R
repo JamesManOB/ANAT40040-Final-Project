@@ -12,7 +12,7 @@ library(survival)
 library(glmnet)
 
 #1 Untar and load clinical, RNA, CNA (cBioPortal)
-downloads_path = "C:/Users/James/OneDrive - University College Dublin/Desktop/ANAT40040 - Materials/Final_CBioPortal_Assignment/ANAT40040_Final_Project"
+downloads_path = #private
 tar_filename = "brca_tcga_pan_can_atlas_2018.tar.gz"
 file_path = paste(downloads_path, tar_filename, sep = "/")
 untar(file_path)
@@ -158,7 +158,7 @@ top10_table = top10_table[, c("Gene","baseMean",
                               "log2FoldChange", "lfcSE",
                               "stat","pvalue","padj")]
 
-#out_dir = "C:/Users/James/OneDrive - University College Dublin/Desktop/ANAT40040 - Materials/Final_CBioPortal_Assignment/ANAT40040_Final_Project"
+#out_dir = private
 #out_path = file.path(out_dir, "Top10_DE_ERBB2_Amplified_vs_NotAmplified.csv")
 #write.csv(top10_table, file = out_path, row.names = FALSE)
 #commented out but can be changed for other computers
@@ -263,7 +263,7 @@ pca_plot = plotPCA(vsd, intgroup = "erbb2_status")
 pca_plot
 
 #######12 Heatmap of vst for de genes#####
-#taking the top 20 DE genes by adjusted p value because my laptop did not like
+#taking the top 20 DE genes because my laptop did not like
 #the fact I was trying to use all DE genes
 res_sig_ordered = res_sig[order(res_sig$padj), ]
 top_genes = rownames(res_sig_ordered)[1:20]
@@ -376,4 +376,5 @@ plot(fit_km, col = c("blue","red"),xlab = "Overall survival (months)",ylab = "Su
      main = "Kaplan-Meier curves by LASSO Cox risk group",lwd  = 2)
 
 legend("bottomleft",col = c("blue","red"),legend = levels(meta_cox$risk_group),lwd = 2, bty = "n")
+
 
